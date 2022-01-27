@@ -14,8 +14,15 @@ body {
     padding: 0;
     display: flex;
     flex-flow: row nowrap;
-    background-color: orange;
+    background: linear-gradient(45deg, black, darkblue);
+    background-size: 200%;
+    animation: bg-animation 40s infinite alternate;
     color: white;
+}
+
+@keyframes bg-animation {
+    0% {background-position: left;}
+    100% {background-position: right;}
 }
 
 p {
@@ -35,12 +42,19 @@ li {
     padding: 1em;
     text-align: center;
     border-left: 2px solid white;
-    border-radius: 3px;
+    border-radius: 8px;
     overflow: hidden;
+    background: linear-gradient(45deg, rgb(0, 162, 255) 50%, rgb(63, 63, 63) 50%);
+    background-size: 250% 100%;
+    background-position: right;
+    transition: background-position 0.75s ease-in-out;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 li:hover {
-    background-color: orange;
+    background-position: left;
 }
 
 button {
@@ -54,15 +68,40 @@ button {
 .library-box {
     width: 20%;
     height: 100%;
-    background-color: black;
-    border-right: 3px solid white;
+    background-color: rgb(37, 37, 37);
     overflow: auto;
+}
+
+.welcome-text {
+    width: 100%;
+    height: 10%;
+    font-size: 1.3em;
 }
 
 .project-library {
     width: 100%;
     height: 70%;
     overflow: auto;
+    background-color: rgb(63, 63, 63);
+}
+
+.project-controls {
+    height: 20%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    gap: 0.5em;
+}
+
+.project-btn {
+    font-size: 1.3em;
+    border: 3px solid white;
+    border-radius: 8px;
+    transition: font-size 0.5s;
+}
+
+.project-btn:hover {
+    font-size: 1.5em;
 }
 
 
@@ -101,27 +140,63 @@ button {
 
 
 
-
-
+.task-library {
+    border-left: 3px solid white;
+    border-right: 3px solid white;
+    background-color: rgb(63, 63, 63);
+}
 
 .priority-box {
+    width: 100%;
+    height: 5%;
+    background: black;
     font-size: 1.3em;
+    line-height: 0;
+    color: cyan;
     border-radius: 5px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
 }
 
-.red-bg {
-    background-color: darkred;
+.add-task-btn {
+    width: 20%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: grey;
+    border-left: 1px solid inherit;
+    border-right: 1px solid inherit;
+    border-radius: inherit;
+    font-size: 1em;
+    font-weight: 900;
 }
-.yellow-bg {
-    background-color: rgb(199, 199, 0);
-}
-.green-bg {
-    background-color: darkgreen;
+
+.add-task-btn:hover {
+    font-size: 1.1em;
 }
 
-
-
-
+.big-circle {
+    width: 1.5em;
+    height: 1.5em;
+    border: 1px solid cyan;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .small-circle {
+    width: 1em;
+    height: 1em;
+    border-radius: 100px;
+    background: transparent;
+  }
+  
+  .small-circle:hover {
+    background: cyan;
+  }
 
 
 
@@ -162,27 +237,40 @@ button {
     width: 30%;
     height: 50%;
     margin: auto;
-    background-color: grey;
-    border: 3px solid black;
+    background: white;
     border-radius: 8px;
 }
 
 .due-date-display {
     height: 20%;
     font-size: 1.1em;
-    border-bottom: 1px solid black;
+    font-weight: 900;
+    background: grey;
+    border-bottom: 3px solid white;
+    border-radius: 4px;
 }
 
 .description-display {
     height: 70%;
     padding: 1.5em;
     font-size: 1em;
+    color: black;
     text-align: left;
-    border-bottom: 1px solid black;
     overflow: auto;
 }
 
 .edit-btn {
     height: 10%;
     font-size: 1.3em;
+    font-weight: 900;
+    background: linear-gradient(to top, dodgerblue 50%, grey 50%);
+    background-size: 100% 250%;
+    background-position: top;
+    border-top: 1px solid grey;
+    border-radius: 4px;
+    transition: background-position 0.75s ease-in-out;
+}
+
+.edit-btn:hover {
+    background-position: bottom;
 }
