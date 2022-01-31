@@ -149,6 +149,12 @@ button {
     border-right: 3px solid white;
     border-radius: 0 8px 8px 0;
     background-color: rgb(63, 63, 63);
+    animation: slide-in 250ms cubic-bezier(.76,.27,.72,1.41) forwards;
+}
+
+@keyframes slide-in {
+    0% {width: 0%;}
+    100% {width: 20%;}
 }
 
 .priority-box {
@@ -259,6 +265,12 @@ button {
     margin: auto;
     background: white;
     border-radius: 8px;
+    animation: unravel 1s ease-out 1 forwards;
+}
+
+@keyframes unravel {
+    0% {height: 0%;}
+    100% {height: 50%;}
 }
 
 .due-date-display {
