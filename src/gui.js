@@ -1,3 +1,6 @@
+import { returnProjectLibrary, returnTaskList } from "./libraryLogic.js";
+import "./style.css";
+
 const body = document.querySelector("body");
 
 
@@ -63,12 +66,63 @@ function clearTaskLibraryBox() {
     body.removeChild(taskLibraryBox);
 };
 
-function renderTaskLibraryBox() {
+function renderEssentialTasksList(targetProjectTitle, parentDiv) {
+    for (let i = 0; i < returnTaskList(targetProjectTitle, "essentialTasks").length; i++) {
+        const task = document.createElement("li");
+        task.textContent = `${returnTaskList(targetProjectTitle, "essentialTasks")[i].title}`;
+        task.addEventListener("click", () => {
+            renderTaskInfoBox();
+        });
+        const bigCircle = document.createElement("div");
+        bigCircle.classList.add("big-circle");
+        const smallCircle = document.createElement("div");
+        smallCircle.classList.add("small-circle");
+        bigCircle.appendChild(smallCircle);
+        task.appendChild(bigCircle);
+        parentDiv.appendChild(task);
+    };
+};
+
+function renderMajorTasksList(targetProjectTitle, parentDiv) {
+    for (let i = 0; i < returnTaskList(targetProjectTitle, "majorTasks").length; i++) {
+        const task = document.createElement("li");
+        task.textContent = `${returnTaskList(targetProjectTitle, "majorTasks")[i].title}`;
+        task.addEventListener("click", () => {
+            renderTaskInfoBox();
+        });
+        const bigCircle = document.createElement("div");
+        bigCircle.classList.add("big-circle");
+        const smallCircle = document.createElement("div");
+        smallCircle.classList.add("small-circle");
+        bigCircle.appendChild(smallCircle);
+        task.appendChild(bigCircle);
+        parentDiv.appendChild(task);
+    };
+};
+
+function renderMinorTasksList(targetProjectTitle, parentDiv) {
+    for (let i = 0; i < returnTaskList(targetProjectTitle, "minorTasks").length; i++) {
+        const task = document.createElement("li");
+        task.textContent = `${returnTaskList(targetProjectTitle, "minorTasks")[i].title}`;
+        task.addEventListener("click", () => {
+            renderTaskInfoBox();
+        });
+        const bigCircle = document.createElement("div");
+        bigCircle.classList.add("big-circle");
+        const smallCircle = document.createElement("div");
+        smallCircle.classList.add("small-circle");
+        bigCircle.appendChild(smallCircle);
+        task.appendChild(bigCircle);
+        parentDiv.appendChild(task);
+    };
+};
+
+function renderTaskLibraryBox(targetProjectTitle) {
     if (taskLibraryBox.firstChild) {clearTaskLibraryBox()};
     
     taskLibraryBox.classList.add("library-box", "task-library");
 
-    const taskBarArrays = [essentialTaskBar, majorTaskBar, minorTaskBar, "Essential", "Major", "Minor"];
+    const taskBarArrays = [essentialTaskBar, majorTaskBar, minorTaskBar, "essential", "major", "minor", renderEssentialTasksList, renderMajorTasksList, renderMinorTasksList];
     for (let i = 0; i < 3; i++) {
         taskBarArrays[i].classList.add("priority-box");
         const taskRank = document.createElement("p");
@@ -81,21 +135,8 @@ function renderTaskLibraryBox() {
         taskLibraryBox.appendChild(taskBarArrays[i]);
 
         const taskLibrary = document.createElement("ul");
-        taskLibrary.classList.add(`${taskBarArrays[i + 3].toLowerCase()}-library`);
-        for (let i = 0; i < 3; i++) {
-            const task = document.createElement("li");
-            task.textContent = `${[i + 1]}`;
-            task.addEventListener("click", () => {
-                renderTaskInfoBox();
-            });
-            const bigCircle = document.createElement("div");
-            bigCircle.classList.add("big-circle");
-            const smallCircle = document.createElement("div");
-            smallCircle.classList.add("small-circle");
-            bigCircle.appendChild(smallCircle);
-            task.appendChild(bigCircle);
-            taskLibrary.appendChild(task);
-        };
+        taskLibrary.classList.add(`${taskBarArrays[i + 3]}-library`);
+        taskBarArrays[i + 6](targetProjectTitle, taskLibrary);
         taskLibraryBox.appendChild(taskLibrary);
     };
 
@@ -110,15 +151,15 @@ function renderHomeLibrayBox() {
     homeLibraryBox.appendChild(welcomeText);
 
     projectLibrary.classList.add("project-library");
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < returnProjectLibrary().length; i++) {
         const project = document.createElement("li");
+        project.textContent = `${returnProjectLibrary()[i]["title"]}`;
         project.addEventListener("click", () => {
             if (taskInfoBox.firstChild) {
                 clearTaskInfoBox();
             };
-            renderTaskLibraryBox()
+            renderTaskLibraryBox(project.textContent);
         });
-        project.textContent = `Example ${[i]}`;
         projectLibrary.appendChild(project);
     };
     homeLibraryBox.appendChild(projectLibrary);
