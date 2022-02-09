@@ -1,4 +1,4 @@
-import { returnProjectLibrary, returnTaskList } from "./libraryLogic.js";
+import { returnProjectLibrary, returnTaskList, addProject, addTask } from "./libraryLogic.js";
 import "./style.css";
 
 const body = document.querySelector("body");
@@ -131,6 +131,11 @@ function renderTaskLibraryBox(targetProjectTitle) {
         const addTaskBtn = document.createElement("button");
         addTaskBtn.classList.add("add-task-btn");
         addTaskBtn.textContent = "+";
+        addTaskBtn.addEventListener("click", () => {
+            addTask(returnTaskList(targetProjectTitle, `${taskBarArrays[i + 3]}Tasks`));
+            clearTaskLibraryBox();
+            renderTaskLibraryBox(targetProjectTitle);
+        });
         taskBarArrays[i].appendChild(addTaskBtn);
         taskLibraryBox.appendChild(taskBarArrays[i]);
 
@@ -143,14 +148,12 @@ function renderTaskLibraryBox(targetProjectTitle) {
     body.appendChild(taskLibraryBox);
 };
 
-function renderHomeLibrayBox() {
-    homeLibraryBox.classList.add("library-box");
-
-    welcomeText.classList.add("welcome-text");
-    welcomeText.textContent = "Welcome, User";
-    homeLibraryBox.appendChild(welcomeText);
-
-    projectLibrary.classList.add("project-library");
+function renderProjectList() {
+    if (projectLibrary.firstChild) {
+        while (projectLibrary.firstChild) {
+            projectLibrary.removeChild(projectLibrary.firstChild);
+        };
+    };
     for (let i = 0; i < returnProjectLibrary().length; i++) {
         const project = document.createElement("li");
         project.textContent = `${returnProjectLibrary()[i]["title"]}`;
@@ -162,11 +165,26 @@ function renderHomeLibrayBox() {
         });
         projectLibrary.appendChild(project);
     };
+};
+
+function renderHomeLibrayBox() {
+    homeLibraryBox.classList.add("library-box");
+
+    welcomeText.classList.add("welcome-text");
+    welcomeText.textContent = "Welcome, User";
+    homeLibraryBox.appendChild(welcomeText);
+
+    projectLibrary.classList.add("project-library");
+    renderProjectList();
     homeLibraryBox.appendChild(projectLibrary);
 
     projectControls.classList.add("project-controls");
     newProjectBtn.classList.add("project-btn");
     newProjectBtn.textContent = "New Project";
+    newProjectBtn.addEventListener("click", () => {
+        addProject();
+        renderProjectList();
+    });
     projectControls.appendChild(newProjectBtn);
     renameProjectBtn.classList.add("project-btn");
     renameProjectBtn.textContent = "Rename Project";

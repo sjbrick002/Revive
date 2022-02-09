@@ -1,3 +1,16 @@
+const Project = title => {
+    let essentialTasks = [];
+    let majorTasks = [];
+    let minorTasks = [];
+    return {title, essentialTasks, majorTasks, minorTasks};
+};
+
+const Task = title => {
+    let dueDate;
+    let description;
+    return {title, dueDate, description};
+};
+
 let projectLibrary = [
     {
         title: "Start Here",
@@ -29,4 +42,14 @@ function returnTaskList(targetProjectTitle, targetTaskList) {
     return targetProject[targetTaskList];
 };
 
-export { returnProjectLibrary, returnTaskList };
+function addProject() {
+    projectLibrary.push(Project(prompt("Name new project")));
+};
+
+function addTask(targetTaskList) {
+    const newTask = Task(prompt("Name new task"));
+    targetTaskList.push(newTask);
+
+};
+
+export { returnProjectLibrary, returnTaskList, addProject, addTask };
