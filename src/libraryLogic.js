@@ -13,29 +13,15 @@ const Task = (title, enteredDueDate, description) => {
 let projectLibrary = [
     {
         title: "Start Here",
-        essentialTasks: [
-            {
-                title: "Have cake!",
-                dueDate: "No due date",
-                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-            }
-        ],
-        majorTasks: [
-            {
-                title: "Vacuum room",
-                dueDate: "No due date",
-                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-            }
-        ],
-        minorTasks: [
-            {
-                title: "Read your book",
-                dueDate: "No due date",
-                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-            }
-        ]
+        essentialTasks: [],
+        majorTasks: [],
+        minorTasks: []
     }
 ];
+
+function orderByDueDate(targetTaskList) {
+    targetTaskList.sort((a, b) => a["dueDate"].getTime() - b["dueDate"].getTime())
+}
 
 function returnProjectLibrary() {
     return projectLibrary;
@@ -54,6 +40,7 @@ function addProject() {
 function addTask(targetTaskList) {
     const newTask = Task(prompt("Enter task's name:"), prompt("Enter task's due date:", "MM/DD/YYYY"), prompt("Enter task's description:"));
     targetTaskList.push(newTask);
+    orderByDueDate(targetTaskList);
 };
 
 function editTask(targetTaskList, targetTask, targetTaskIndex) {
@@ -63,6 +50,7 @@ function editTask(targetTaskList, targetTask, targetTaskIndex) {
         prompt("Enter task's description:", `${targetTask.description}`)
     );
     targetTaskList.splice(targetTaskIndex, 1, revisedTask);
+    orderByDueDate(targetTaskList);
     console.log(targetTaskList);
 };
 
