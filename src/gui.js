@@ -1,4 +1,4 @@
-import { returnProjectLibrary, returnTaskList, addProject, addTask, editTask } from "./libraryLogic.js";
+import { returnProjectLibrary, returnTaskList, addProject, eraseProject, renameProject, addTask, eraseTask, editTask } from "./libraryLogic.js";
 import "./style.css";
 
 const body = document.querySelector("body");
@@ -82,6 +82,10 @@ function renderEssentialTasksList(targetProjectTitle, parentDiv) {
         bigCircle.classList.add("big-circle");
         const smallCircle = document.createElement("div");
         smallCircle.classList.add("small-circle");
+        smallCircle.addEventListener("click", () => {
+            eraseTask(returnTaskList(targetProjectTitle, "essentialTasks"), returnTaskList(targetProjectTitle, "essentialTasks")[i].title);
+            renderTaskLibraryBox(targetProjectTitle);
+        });
         bigCircle.appendChild(smallCircle);
         task.appendChild(bigCircle);
         parentDiv.appendChild(task);
@@ -99,6 +103,10 @@ function renderMajorTasksList(targetProjectTitle, parentDiv) {
         bigCircle.classList.add("big-circle");
         const smallCircle = document.createElement("div");
         smallCircle.classList.add("small-circle");
+        smallCircle.addEventListener("click", () => {
+            eraseTask(returnTaskList(targetProjectTitle, "majorTasks"), returnTaskList(targetProjectTitle, "majorTasks")[i].title);
+            renderTaskLibraryBox(targetProjectTitle);
+        });
         bigCircle.appendChild(smallCircle);
         task.appendChild(bigCircle);
         parentDiv.appendChild(task);
@@ -116,6 +124,10 @@ function renderMinorTasksList(targetProjectTitle, parentDiv) {
         bigCircle.classList.add("big-circle");
         const smallCircle = document.createElement("div");
         smallCircle.classList.add("small-circle");
+        smallCircle.addEventListener("click", () => {
+            eraseTask(returnTaskList(targetProjectTitle, "minorTasks"), returnTaskList(targetProjectTitle, "minorTasks")[i].title);
+            renderTaskLibraryBox(targetProjectTitle);
+        });
         bigCircle.appendChild(smallCircle);
         task.appendChild(bigCircle);
         parentDiv.appendChild(task);
@@ -196,9 +208,17 @@ function renderHomeLibrayBox() {
     projectControls.appendChild(newProjectBtn);
     renameProjectBtn.classList.add("project-btn");
     renameProjectBtn.textContent = "Rename Project";
+    renameProjectBtn.addEventListener("click", () => {
+        renameProject(prompt("Please enter the project title you wish to change"));
+        renderProjectList();
+    });
     projectControls.appendChild(renameProjectBtn);
     finishProjectBtn.classList.add("project-btn");
     finishProjectBtn.textContent = "Finish Project";
+    finishProjectBtn.addEventListener("click", () => {
+        eraseProject(prompt("Please enter the finished project's title"));
+        renderProjectList();
+    });
     projectControls.appendChild(finishProjectBtn);
     homeLibraryBox.appendChild(projectControls);
 

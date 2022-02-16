@@ -37,10 +37,27 @@ function addProject() {
     projectLibrary.push(Project(prompt("Name new project:")));
 };
 
+function eraseProject(targetProjectTitle) {
+    const index = projectLibrary.findIndex((project) => project.title === targetProjectTitle);
+    projectLibrary.splice(index, 1);
+}
+
+function renameProject(targetProjectTitle) {
+    const index = projectLibrary.findIndex((project) => project.title === targetProjectTitle);
+    projectLibrary[index].title = prompt("Enter project's name:", `${targetProjectTitle}`);
+}
+
 function addTask(targetTaskList) {
     const newTask = Task(prompt("Enter task's name:"), prompt("Enter task's due date:", "MM/DD/YYYY"), prompt("Enter task's description:"));
     targetTaskList.push(newTask);
     orderByDueDate(targetTaskList);
+};
+
+function eraseTask(targetTaskList, targetTaskTitle) {
+    console.log(targetTaskList);
+    const index = targetTaskList.findIndex((task) => task.title === targetTaskTitle);
+    targetTaskList.splice(index, 1);
+    console.log(targetTaskList);
 };
 
 function editTask(targetTaskList, targetTask, targetTaskIndex) {
@@ -51,7 +68,6 @@ function editTask(targetTaskList, targetTask, targetTaskIndex) {
     );
     targetTaskList.splice(targetTaskIndex, 1, revisedTask);
     orderByDueDate(targetTaskList);
-    console.log(targetTaskList);
 };
 
-export { returnProjectLibrary, returnTaskList, addProject, addTask, editTask };
+export { returnProjectLibrary, returnTaskList, addProject, eraseProject, renameProject, addTask, eraseTask, editTask };
