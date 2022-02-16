@@ -1,4 +1,4 @@
-import { returnProjectLibrary, returnTaskList, addProject, addTask } from "./libraryLogic.js";
+import { returnProjectLibrary, returnTaskList, addProject, addTask, editTask } from "./libraryLogic.js";
 import "./style.css";
 
 const body = document.querySelector("body");
@@ -20,7 +20,6 @@ const minorTaskBar = document.createElement("div");
 const taskInfoBox = document.createElement("div");
 const dueDateDisplay = document.createElement("p");
 const descriptionDisplay = document.createElement("p");
-const editBtn = document.createElement("button");
 
 
 function clearTaskInfoBox() {
@@ -30,20 +29,26 @@ function clearTaskInfoBox() {
     body.removeChild(taskInfoBox);
 };
 
-function renderTaskInfoBox() {
+function renderTaskInfoBox(targetProjectTitle, targetTaskList, targetTask, targetTaskIndex) {
     if (taskInfoBox.firstChild) {clearTaskInfoBox()};
     taskInfoBox.classList.add("task-info-box");
 
     dueDateDisplay.classList.add("due-date-display");
-    dueDateDisplay.textContent = "Due Date: 6:00AM XX/XX/XXXX";
+    dueDateDisplay.textContent = targetTask["dueDate"];
     taskInfoBox.appendChild(dueDateDisplay);
 
     descriptionDisplay.classList.add("description-display");
-    descriptionDisplay.textContent = "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum iusto distinctio, ex quos quo molestias molestiae? Neque accusantium culpa perferendis, non nulla aperiam eaque magnam omnis ipsam beatae, deleniti porro? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat repudiandae quam iure. Voluptatum omnis eveniet iste, dolor adipisci culpa obcaecati placeat veniam aspernatur tempore aliquid nemo dicta magnam, est reprehenderit?";
+    descriptionDisplay.textContent = targetTask["description"]
     taskInfoBox.appendChild(descriptionDisplay);
 
+    const editBtn = document.createElement("button");
     editBtn.classList.add("edit-btn");
     editBtn.textContent = "Edit";
+    editBtn.addEventListener("click", () => {
+        editTask(targetTaskList, targetTask, targetTaskIndex);
+        renderTaskLibraryBox(targetProjectTitle);
+        clearTaskInfoBox();
+    });
     taskInfoBox.appendChild(editBtn);
 
     body.appendChild(taskInfoBox);
@@ -71,7 +76,7 @@ function renderEssentialTasksList(targetProjectTitle, parentDiv) {
         const task = document.createElement("li");
         task.textContent = `${returnTaskList(targetProjectTitle, "essentialTasks")[i].title}`;
         task.addEventListener("click", () => {
-            renderTaskInfoBox();
+            renderTaskInfoBox(targetProjectTitle, returnTaskList(targetProjectTitle, "essentialTasks"), returnTaskList(targetProjectTitle, "essentialTasks")[i], [i]);
         });
         const bigCircle = document.createElement("div");
         bigCircle.classList.add("big-circle");
@@ -88,7 +93,7 @@ function renderMajorTasksList(targetProjectTitle, parentDiv) {
         const task = document.createElement("li");
         task.textContent = `${returnTaskList(targetProjectTitle, "majorTasks")[i].title}`;
         task.addEventListener("click", () => {
-            renderTaskInfoBox();
+            renderTaskInfoBox(targetProjectTitle, returnTaskList(targetProjectTitle, "majorTasks"), returnTaskList(targetProjectTitle, "majorTasks")[i], [i]);
         });
         const bigCircle = document.createElement("div");
         bigCircle.classList.add("big-circle");
@@ -105,7 +110,7 @@ function renderMinorTasksList(targetProjectTitle, parentDiv) {
         const task = document.createElement("li");
         task.textContent = `${returnTaskList(targetProjectTitle, "minorTasks")[i].title}`;
         task.addEventListener("click", () => {
-            renderTaskInfoBox();
+            renderTaskInfoBox(targetProjectTitle, returnTaskList(targetProjectTitle, "minorTasks"), returnTaskList(targetProjectTitle, "minorTasks")[i], [i]);
         });
         const bigCircle = document.createElement("div");
         bigCircle.classList.add("big-circle");
@@ -132,6 +137,9 @@ function renderTaskLibraryBox(targetProjectTitle) {
         addTaskBtn.classList.add("add-task-btn");
         addTaskBtn.textContent = "+";
         addTaskBtn.addEventListener("click", () => {
+            if (taskInfoBox.firstChild) {
+                clearTaskInfoBox();
+            };
             addTask(returnTaskList(targetProjectTitle, `${taskBarArrays[i + 3]}Tasks`));
             clearTaskLibraryBox();
             renderTaskLibraryBox(targetProjectTitle);
