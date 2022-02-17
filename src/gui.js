@@ -34,7 +34,7 @@ function renderTaskInfoBox(targetProjectTitle, targetTaskList, targetTask, targe
     taskInfoBox.classList.add("task-info-box");
 
     dueDateDisplay.classList.add("due-date-display");
-    dueDateDisplay.textContent = targetTask["dueDate"];
+    dueDateDisplay.textContent = `Due Date: ${targetTask["dueDate"]}`;
     taskInfoBox.appendChild(dueDateDisplay);
 
     descriptionDisplay.classList.add("description-display");
